@@ -3,69 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reloj - Sistema Académico</title>
-    <link rel="stylesheet" href="css/styles.css"> 
+    <title>Bienvenido a PomoDoList</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+        body { background-color: #f8fafc; color: #334155; line-height: 1.6; }
+        
+        /* NAVBAR */
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 50px; background: rgba(255, 255, 255, 0.9); position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .logo { font-size: 1.5rem; font-weight: 700; color: #1e3a8a; display: flex; align-items: center; gap: 10px; }
+        .nav-buttons { display: flex; gap: 15px; }
+        .btn-nav { padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.3s; }
+        .btn-login { color: #1e3a8a; border: 2px solid #1e3a8a; }
+        .btn-login:hover { background: #1e3a8a; color: white; }
+        .btn-register { background: #2563eb; color: white; border: 2px solid #2563eb; }
+        .btn-register:hover { background: #1d4ed8; border-color: #1d4ed8; }
+
+        /* HERO SECTION */
+        .hero { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 100px 20px; background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 100%); }
+        .hero h1 { font-size: 3.5rem; color: #0f172a; margin-bottom: 20px; line-height: 1.2; max-width: 800px; }
+        .hero h1 span { color: #2563eb; }
+        .hero p { font-size: 1.2rem; color: #475569; max-width: 600px; margin-bottom: 40px; }
+        .btn-cta { background: #10b981; color: white; padding: 15px 40px; border-radius: 50px; text-decoration: none; font-size: 1.2rem; font-weight: 600; transition: transform 0.3s, box-shadow 0.3s; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4); }
+        .btn-cta:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(16, 185, 129, 0.6); }
+
+        /* FEATURES */
+        .features { padding: 80px 20px; max-width: 1200px; margin: 0 auto; text-align: center; }
+        .features h2 { font-size: 2.5rem; color: #1e293b; margin-bottom: 50px; }
+        .grid-features { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .feature-card { background: white; padding: 40px 30px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: transform 0.3s; border-top: 5px solid #2563eb; }
+        .feature-card:hover { transform: translateY(-10px); }
+        .feature-icon { font-size: 3rem; margin-bottom: 20px; }
+        .feature-card h3 { font-size: 1.5rem; color: #1e3a8a; margin-bottom: 15px; }
+        .feature-card p { color: #64748b; }
+
+        /* ABOUT US (Creadores) */
+        .about { background: #1e3a8a; color: white; padding: 80px 20px; text-align: center; }
+        .about h2 { font-size: 2.5rem; margin-bottom: 20px; }
+        .about > p { color: #cbd5e1; max-width: 600px; margin: 0 auto 50px auto; }
+        .creators { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; }
+        .creator-card { background: rgba(255,255,255,0.1); padding: 30px; border-radius: 16px; width: 300px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); }
+        .creator-avatar { width: 80px; height: 80px; background: #3b82f6; border-radius: 50%; margin: 0 auto 20px auto; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: bold; }
+        .creator-card h3 { font-size: 1.2rem; margin-bottom: 5px; }
+        .creator-card p { color: #93c5fd; font-size: 0.9rem; margin-bottom: 15px; }
+        .creator-card a { color: white; text-decoration: none; background: #2563eb; padding: 8px 15px; border-radius: 5px; font-size: 0.9rem; display: inline-block; transition: background 0.3s; }
+        .creator-card a:hover { background: #1d4ed8; }
+
+        /* FOOTER */
+        footer { text-align: center; padding: 30px; background: #0f172a; color: #94a3b8; font-size: 0.9rem; }
+    </style>
 </head>
 <body>
-    <header class="header-content" id="session-header" style="background: #1d4ed8; color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center;">
-        <!-- Aquí se inyectará por JS si hay sesión o no -->
-        <span>Verificando sesión...</span>
+
+    <nav>
+        <div class="logo">🍅 PomoDoList</div>
+        <div class="nav-buttons">
+            <a href="login.html" class="btn-nav btn-login">Iniciar Sesión</a>
+            <a href="register.html" class="btn-nav btn-register">Registrarse</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <h1>Organiza tu tiempo, <span>multiplica tu productividad</span></h1>
+        <p>La herramienta definitiva que combina la técnica Pomodoro con una potente gestión de tareas y análisis de datos para llevar tu rendimiento al siguiente nivel.</p>
+        <a href="register.html" class="btn-cta">Comenzar Ahora Gratis 🚀</a>
     </header>
 
-    <main class="container">
-        <div class="card">
-            <h1>Hora Actual</h1>
-            <div id="clock" style="font-size: 3rem; text-align: center; font-weight: bold; margin: 20px 0; color: #2563eb;">
-                00:00:00
+    <section class="features">
+        <h2>¿Por qué elegir PomoDoList?</h2>
+        <div class="grid-features">
+            <div class="feature-card">
+                <div class="feature-icon">⏱️</div>
+                <h3>Temporizador Pomodoro</h3>
+                <p>Configura tus tiempos de enfoque y descanso. Nuestro sistema registra cada sesión para que no pierdas el hilo de tu esfuerzo.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">✅</div>
+                <h3>Gestión de Tareas</h3>
+                <p>Olvídate del estrés. Crea, edita, completa y elimina tareas en tiempo real, todo respaldado de forma segura en la nube.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Dashboard Analítico</h3>
+                <p>Visualiza tu progreso con gráficos estadísticos. Descubre cuáles son tus días más productivos y mejora continuamente.</p>
             </div>
         </div>
-    </main>
+    </section>
 
-    <script>
-        // Lógica del Reloj
-        function updateClock() {
-            const now = new Date();
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            const seconds = String(now.getSeconds()).padStart(2, '0');
-            document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
-        }
-        setInterval(updateClock, 1000);
-        updateClock();
+    <section class="about">
+        <h2>Sobre los Creadores</h2>
+        <p>Este proyecto fue desarrollado como parte del curso de Introducción al Desarrollo Web, fusionando diseño moderno con tecnología de punta.</p>
+        
+        <div class="creators">
+            <div class="creator-card">
+                <div class="creator-avatar">A</div>
+                <h3>Axcel Jesus Cuno Lima</h3>
+                <p>Desarrollador Full Stack</p>
+                <a href="mailto:acunol@unsa.edu.pe">acunol@unsa.edu.pe</a>
+            </div>
+            <div class="creator-card">
+                <div class="creator-avatar">G</div>
+                <h3>Gael Alexander Huamaní Machaca</h3>
+                <p>Desarrollador Full Stack</p>
+                <a href="mailto:ghuamanimac@unsa.edu.pe">ghuamanimac@unsa.edu.pe</a>
+            </div>
+        </div>
+    </section>
 
-        // Lógica de Sesión: Consultamos la API protegida del perfil[cite: 4]
-        async function checkSession() {
-            const header = document.getElementById('session-header');
-            try {
-                const response = await fetch('/api/perfil');
-                
-                // Si la respuesta es 401 Unauthorized, no hay sesión activa[cite: 4]
-                if (response.status === 401) {
-                    header.innerHTML = `
-                        <span>No hay sesión activa</span>
-                        <div>
-                            <a href="login.html" style="color: white; margin-right: 15px; font-weight: bold;">Iniciar Sesión</a>
-                            <a href="register.html" style="color: white; font-weight: bold;">Registrarse</a>
-                        </div>
-                    `;
-                } else if (response.ok) {
-                    const data = await response.json();
-                    header.innerHTML = `
-                        <span>Bienvenido, <strong>${data.data.nombres} ${data.data.apellidos}</strong></span>
-                        <button onclick="logout()" style="width: auto; padding: 5px 15px; font-size: 14px; background: white; color: #1d4ed8;">Cerrar sesión</button>
-                    `;
-                }
-            } catch (error) {
-                console.error("Error al verificar la sesión");
-            }
-        }
+    <footer>
+        <p>&copy; 2026 PomoDoList - Proyecto Integrador de Desarrollo Web. Todos los derechos reservados.</p>
+    </footer>
 
-        async function logout() {
-            await fetch('/api/auth/logout', { method: 'POST' });
-            window.location.reload(); // Recargar para mostrar "No hay sesión"
-        }
-
-        checkSession();
-    </script>
 </body>
 </html>
