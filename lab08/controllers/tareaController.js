@@ -1,6 +1,6 @@
 const db = require('../db');
 
-// 1. Obtener todas las tareas del usuario logueado
+// 1. Obtener todas las tareas
 exports.getTareas = async (req, res) => {
     try {
         const result = await db.query(
@@ -9,7 +9,6 @@ exports.getTareas = async (req, res) => {
         );
         res.status(200).json(result.rows);
     } catch (error) {
-        console.error("Error al obtener:", error);
         res.status(500).json({ error: 'Error al obtener tareas' });
     }
 };
@@ -26,26 +25,25 @@ exports.createTarea = async (req, res) => {
         );
         res.status(201).json(result.rows[0]);
     } catch (error) {
-        console.error("Error al crear:", error);
         res.status(500).json({ error: 'Error al crear tarea' });
     }
 };
 
-// 3. Actualizar tarea (marcar como completada o deshacer)
+// 3. Actualizar tarea (Aquí guardamos la fecha exacta de completado)
 exports.updateTarea = async (req, res) => {
     try {
         const { id } = req.params;
         const { completada } = req.body;
         
-        const result = await db.query(
-            'UPDATE tareas SET completada = $1 WHERE id = $2 AND usuario_id = $3 RETURNING *',
-            [completada, id, req.session.userId]
-        );
+        const query = completada 
+            ? 'UPDATE tareas SET completada = $1, completado_en = CURRENT_TIMESTAMP WHERE id = $2 AND usuario_id = $3 RETURNING *'
+            : 'UPDATE tareas SET completada = $1, completado_en = NULL WHERE id = $2 AND usuario_id = $3 RETURNING *';
+
+        const result = await db.query(query, [completada, id, req.session.userId]);
         
         if (result.rows.length === 0) return res.status(404).json({ message: 'Tarea no encontrada' });
         res.status(200).json(result.rows[0]);
     } catch (error) {
-        console.error("Error al actualizar:", error);
         res.status(500).json({ error: 'Error al actualizar tarea' });
     }
 };
@@ -58,30 +56,25 @@ exports.deleteTarea = async (req, res) => {
             'DELETE FROM tareas WHERE id = $1 AND usuario_id = $2 RETURNING *',
             [id, req.session.userId]
         );
-        
         if (result.rows.length === 0) return res.status(404).json({ message: 'Tarea no encontrada' });
         res.status(200).json({ message: 'Tarea eliminada' });
     } catch (error) {
-        console.error("Error al eliminar:", error);
         res.status(500).json({ error: 'Error al eliminar tarea' });
     }
 };
 
-// 5. Obtener estadísticas para el Dashboard (NUEVA FUNCIÓN)
+// 5. Obtener estadísticas para el Dashboard
 exports.getEstadisticas = async (req, res) => {
     try {
-        // Total de tareas
         const totalRes = await db.query('SELECT COUNT(*) FROM tareas WHERE usuario_id = $1', [req.session.userId]);
-        // Tareas completadas
         const completadasRes = await db.query('SELECT COUNT(*) FROM tareas WHERE usuario_id = $1 AND completada = true', [req.session.userId]);
         
-        // Tareas agrupadas por día (últimos 7 días)
         const porDiaRes = await db.query(`
-            SELECT TO_CHAR(creado_en, 'DD/MM') as dia, COUNT(*) as cantidad 
+            SELECT TO_CHAR(completado_en, 'DD/MM/YYYY') as dia, COUNT(*) as cantidad 
             FROM tareas 
-            WHERE usuario_id = $1 
+            WHERE usuario_id = $1 AND completada = true AND completado_en IS NOT NULL
             GROUP BY dia 
-            ORDER BY MIN(creado_en) ASC 
+            ORDER BY MIN(completado_en) ASC 
             LIMIT 7
         `, [req.session.userId]);
 
@@ -91,7 +84,6 @@ exports.getEstadisticas = async (req, res) => {
             porDia: porDiaRes.rows
         });
     } catch (error) {
-        console.error(error);
         res.status(500).json({ error: 'Error al obtener estadísticas' });
     }
 };
