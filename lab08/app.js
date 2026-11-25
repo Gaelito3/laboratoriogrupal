@@ -1,4 +1,5 @@
 require('dotenv').config();
+const pomodoroController = require('./controllers/pomodoroController');
 const express = require('express');
 const session = require('express-session');
 const path = require('path');
@@ -36,7 +37,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api/auth', authRoutes);
 app.use('/api', userRoutes);
 app.use('/api/tareas', tareaRoutes);
-
+app.post('/api/pomodoros', authMiddleware.requireAuth, pomodoroController.registrarPomodoro);
 // ESTA ES LA LÍNEA QUE ARREGLA EL "NOT FOUND"
 // Redirige la raíz a tu página de login
 app.get('/', (req, res) => {
